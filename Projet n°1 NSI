@@ -1,0 +1,97 @@
+from tkinter import *
+
+def wd_destroy():
+    menu.destroy
+
+def DtoB():    
+    try:                                                                                         #Fonction ayant pour but de convertir un décimal en binaire 8bits
+        toConvert=int(input_box.get())
+    except ValueError:
+        result.config(state="normal")
+        result.delete("1.0", "end")
+        result.insert("1.0", "Veuillez saisir un nombre entre 0 et 255. (ex : 240)")
+        result.config(state="disabled")
+    try:
+        if toConvert>=0 and toConvert<=255:
+            result.config(state="normal")
+            result.delete("1.0", "end")
+            result.insert("1.0", format(toConvert, '08b'))
+            result.config(state="disabled")
+        else:
+            result.config(state="normal")
+            result.delete("1.0", "end")
+            result.insert("1.0", "Veuillez saisir un nombre entre 0 et 255. (ex : 240)")
+            result.config(state="disabled")
+    except UnboundLocalError:
+        result.config(state="normal")
+        result.delete("1.0", "end")
+        result.insert("1.0", "Veuillez saisir un nombre entre 0 et 255. (ex : 240)")
+        result.config(state="disabled")
+
+def BtoD():                                                                                         #Fonction ayant pour but de convertir un binaire 8bits en décimal
+    toConvert=input_box.get()
+    if len(toConvert)==8:
+        result.config(state="normal")
+        result.delete("1.0", "end")
+        result.insert("1.0", int(toConvert, 2))
+        result.config(state="disabled")
+    else:
+        result.config(state="normal")
+        result.delete("1.0", "end")
+        result.insert("1.0", "Veuillez entrer un binaire de 8  chiffres. (ex : 11110000)")
+        result.config(state="disabled")
+
+def converter():
+    menu.destroy
+    global result, input_box
+    window=Tk()
+    window.title("1ère tache")
+    window.geometry("1280x720")
+    window.minsize(900, 250)
+    window.config(background='#FAD7A0')
+
+    #frame
+    frame= Frame(window, bg='#FAD7A0')
+
+    #titre
+    label_title = Label(window, text="Convertisseur binaire <=> décimal", font=("arial",40), bg='#FAD7A0', fg="white")
+    label_title.pack()
+
+    #bouton du binaire au décimal
+    b_to_d_button = Button(frame, text="convertir en decimal", font=("arial",25), bg='white', fg="#FAD7A0", command=BtoD)
+    b_to_d_button.grid(row=1, column=0, sticky=S)
+
+    #bouton du décimal au binaire
+    d_to_b_button = Button(frame, text="convertir en binaire", font=("arial",25), bg='white', fg="#FAD7A0", command=DtoB)
+    d_to_b_button.grid(row=1, column=1, sticky=S)
+
+    #entrée
+    input_box=Entry(frame, text="Entrez le nombre à convertir ici", font=("arial",25), bg='#FAD7A0', fg="white", width=25)
+    input_box.grid(row=0, column=0, sticky=W)
+
+    #affichage conversion
+    result = Text(frame, font=("arial",25), bg='#FAD7A0', fg="white", width=25, height=3, state="disabled")
+    result.grid(row=0, column=1, sticky=E)
+
+    frame.pack(expand='YES')
+    window.mainloop()
+
+def main_menu():
+    global menu
+    menu=Tk()
+    menu.title("Menu")
+    menu.geometry("1280x720")
+    menu.minsize(900, 250)
+    menu.config(background='#FAD7A0')
+
+    #frame
+    root= Frame(menu, bg='#FAD7A0')
+
+    #Bouton converter
+    converter_button = Button(root, text="Convertisseur", font=("arial",25), bg='white', fg="#FAD7A0", command=lambda:converter())
+    converter_button.grid(row=1, column=0, sticky=S)
+
+    root.pack()
+    menu.mainloop()
+
+main_menu()
